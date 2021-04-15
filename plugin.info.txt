@@ -1,0 +1,7 @@
+base   networkviz
+author James & Ryan
+email  jamesguerra2008@gmail.com | #TODO ryan's email
+date   2021-04-11
+name   networkviz plugin
+desc   Graph visualisation tool
+url    https://github.com/James-Guerra
