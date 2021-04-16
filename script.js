@@ -1,4 +1,13 @@
+const {JSDOM} = require("jsdom");
 let redirectUrl;
+const fetch = require("node-fetch");
+const vis =  require('vis-network');
+var testHtml = fetch("http://localhost:1000/network_sample.html")
+    .then(res => res.text())
+    .then(text => console.log(text))
+const jsdom = new JSDOM(testHtml)
+const jQuery = require('jquery')(jsdom.createWindow);
+
 
 // var nodes = new vis.DataSet([
 //         {id: 1, label: 'Node 1'},
@@ -38,8 +47,8 @@ let redirectUrl;
 
 //     var network = new vis.Network(container, data, options);
 
-let gephiJSON = fetch("./sample_data.json")
-    .then(results => results.json())
+let gephiJSON = fetch("http://localhost:1000/sample_data.json")
+    .then(res => res.json())
     .then(graphUnpacked => {
         var parserOptions = {
             edges: {
@@ -70,12 +79,15 @@ let gephiJSON = fetch("./sample_data.json")
                 hover: true,
             }
         }
-        container = document.getElementById("mynetwork")
+        var container = jQuery("#mynetwork");
         var network = new vis.Network(container, data, options);
+    })
+    .catch(err => {
+        console.log(err);
     });
 
 function redirect(values, id, selected, hovering) {
-    var nodeId = document.getElementById("node-id");
+    var nodeId = jQuery("#node-id");
     nodeId.value = id
     let redirect = confirm("Would you like to redirect to " + id);
     if(redirect) {
