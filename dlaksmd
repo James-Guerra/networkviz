@@ -1,0 +1,17 @@
+[33mcommit 0ac62ebafc3b20c3f2cdc5dc20c79a2cc66c49ae[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: James Guerra <jamesguerra2008@gmail.com>
+Date:   Sun Apr 18 12:24:49 2021 +1000
+
+    included comments and node-gtk for gui use
+
+[33mcommit 0b1f48ad511702c934e008290b85b22d16e18f7b[m
+Author: James Guerra <jamesguerra2008@gmail.com>
+Date:   Sat Apr 17 00:26:26 2021 +1000
+
+    trying to create window for to run html in JS
+
+[33mcommit 9452a1c35166b691a648a7534751fc8d9174ce1c[m
+Author: James Guerra <jamesguerra2008@gmail.com>
+Date:   Thu Apr 15 17:41:55 2021 +1000
+
+    dokuwiki plugin
