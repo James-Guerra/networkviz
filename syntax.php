@@ -32,80 +32,56 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
 //      $this->Lexer->addExitPattern('</TEST>','plugin_test');
 //    }
  
- 
-   /**
-    * Handler to prepare matched data for the rendering process.
-    *
-    * <p>
-    * The <tt>$aState</tt> parameter gives the type of pattern
-    * which triggered the call to this method:
-    * </p>
-    * <dl>
-    * <dt>DOKU_LEXER_ENTER</dt>
-    * <dd>a pattern set by <tt>addEntryPattern()</tt></dd>
-    * <dt>DOKU_LEXER_MATCHED</dt>
-    * <dd>a pattern set by <tt>addPattern()</tt></dd>
-    * <dt>DOKU_LEXER_EXIT</dt>
-    * <dd> a pattern set by <tt>addExitPattern()</tt></dd>
-    * <dt>DOKU_LEXER_SPECIAL</dt>
-    * <dd>a pattern set by <tt>addSpecialPattern()</tt></dd>
-    * <dt>DOKU_LEXER_UNMATCHED</dt>
-    * <dd>ordinary text encountered within the plugin's syntax mode
-    * which doesn't match any pattern.</dd>
-    * </dl>
-    * @param $aMatch String The text matched by the patterns.
-    * @param $aState Integer The lexer state for the match.
-    * @param $aPos Integer The character position of the matched text.
-    * @param $aHandler Object Reference to the Doku_Handler object.
-    * @return Integer The current lexer state for the match.
-    * @public
-    * @see render()
-    * @static
-    */
     function handle($match, $state, $pos, Doku_Handler $handler){
         if ($state == DOKU_LEXER_SPECIAL) {
-            $match = substr(trim($match), 12, -10);
-            return array($match);
+            $match = substr(trim($match), 11);
+            list($opts, $adata) = explode('>', $match, 2);
+            preg_match_all('/(\S+)=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?/', $opts, $matches, PREG_SET_ORDER);
+            
+            return array($matches);
         }
         return true;
-        // switch ($state) {
-        //   case DOKU_LEXER_ENTER : 
-        //     break;
-        //   case DOKU_LEXER_MATCHED :
-        //     $match = "Lexer Matched";
-        //     break;
-        //   case DOKU_LEXER_UNMATCHED :
-        //     break;
-        //   case DOKU_LEXER_EXIT :
-        //     break;
-        //   case DOKU_LEXER_SPECIAL :
-        //     break;
-        // }
     }
  
-   /**
-    * Handle the actual output creation.
-    *
-    * <p>
-    * The method checks for the given <tt>$aFormat</tt> and returns
-    * <tt>FALSE</tt> when a format isn't supported. <tt>$aRenderer</tt>
-    * contains a reference to the renderer object which is currently
-    * handling the rendering. The contents of <tt>$aData</tt> is the
-    * return value of the <tt>handle()</tt> method.
-    * </p>
-    * @param $mode String The output format to generate.
-    * @param $aRenderer Object A reference to the renderer object.
-    * @param $aData Array The data created by the <tt>handle()</tt>
-    * method.
-    * @return Boolean <tt>TRUE</tt> if rendered successfully, or
-    * <tt>FALSE</tt> otherwise.
-    * @public
-    * @see handle()
-    */
     function render($mode, $renderer, $data) {
-        $test = $data;
+        $file = $data[0][0][2];
+
         if($mode == 'xhtml'){
-            $renderer->doc .= $test[0];     // ptype = 'block'
+            if(!empty($file)) {
+                if($file !== '' && !preg_match('/^https?:\/\//i', $file)) {
+                    // $file = cleanID($file);
+                    $file = "Something:".$file;
+                    $renderer->doc .= $file;
+                }
+
+                if(preg_match('/^https?:\/\//i', $file)) {
+                    $http = new DokuHTTPClient();
+                    $content = $http->get($file);
+                    try {
+                        if($content === false) {
+                            throw new \Exception('Chart cannot be displayed ! Failed to fetch remote CSV file');
+                        }
+                    } catch (\Exception $e) {
+                        msg(hsc($e->getMessage()), -1);
+                        return false;
+                    }
+                } else {
+                    $file = mediaFN($file);
+                    try {
+                        if(auth_quickaclcheck($fileNS . ':*') < AUTH_READ) {
+						    throw new \Exception('Chart cannot be displayed ! Access denied to CSV file');
+                        }
+					    if(!file_exists($file)) {
+						    throw new \Exception('Chart cannot be displayed ! Requested local CSV file does not exist');
+                        }
+                    } catch (\Exception $e) {
+                        msg(hsc($e->getMessage()), -1);
+                        return false;
+                    }
+                }
+
+                $renderer->doc .= '<div id="interactive-graph" data-graph="' . $file . '"' . '></div>';
+            }
             return true;
         }
         return false;

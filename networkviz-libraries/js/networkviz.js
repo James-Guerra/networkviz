@@ -145,7 +145,7 @@ let gephiJSON = fetch("http://localhost:1000/sample_data.json")
             }
         }
         //assign full screen div to `container`
-        var container = $("#mynetwork");
+        var container = $("#interactive-graph");
         
         // `vis.Network()` does all the magic and should display the graph on html canvas
         var network = new vis.Network(container, data, options);
