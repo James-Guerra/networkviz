@@ -34,8 +34,23 @@ class action_plugin_networkviz extends DokuWiki_Action_Plugin
             'type'    => 'text/javascript',
             'charset' => 'utf-8',
             '_data'   => '',
+            'src'     => 'http://code.jquery.com/jquery-latest.min.js'
+        );
+
+        $event->data['script'][] = array(
+            'type'    => 'text/javascript',
+            'charset' => 'utf-8',
+            '_data'   => '',
+            'src'     => 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js'
+        );
+
+        $event->data['script'][] = array(
+            'type'    => 'text/javascript',
+            'charset' => 'utf-8',
+            '_data'   => '',
             'src'     => '/lib/plugins/networkviz/script.js'
         );
+        
     }
 
 }

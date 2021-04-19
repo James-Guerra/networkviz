@@ -49,12 +49,8 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
         if($mode == 'xhtml'){
             if(!empty($file)) {
                 if($file !== '' && !preg_match('/^https?:\/\//i', $file)) {
-                    // $file = cleanID($file);
-                    // $file = "Something:".$file;
-                    $renderer->doc .= $file;
-                }
-
-                if(preg_match('/^https?:\/\//i', $file)) {
+                    // $renderer->doc .= $file;
+                } elseif(preg_match('/^https?:\/\//i', $file)) {
                     $http = new DokuHTTPClient();
                     $content = $http->get($file);
                     try {
@@ -80,7 +76,7 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                     }
                 }
 
-                $renderer->doc .= '<div id="interactive-graph" data-graph="' . $file . '"' . '></div>';
+                $renderer->doc .= '<div id="interactive-graph" style="height:800px" data-graph="' . $file . '"' . '></div>';
             }
             return true;
         }
