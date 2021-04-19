@@ -30,13 +30,12 @@ class action_plugin_networkviz extends DokuWiki_Action_Plugin
 
     public function _addJavascript(Doku_Event $event)
     {
-        // if ($this->getConf('library') == "networkvizjs") {
-        //     $event->data['script'][] = array(
-        //         'charset' => 'utf-8',
-        //         '_data'   => '',
-        //         'src'     => DOKU_BASE.'lib/plugins/networkviz/networkviz-libraries/js/networkviz.js'
-        //     );
-        // }
+        $event->data['script'][] = array(
+            'type'    => 'text/javascript',
+            'charset' => 'utf-8',
+            '_data'   => '',
+            'src'     => '/lib/plugins/networkviz/script.js'
+        );
     }
 
 }

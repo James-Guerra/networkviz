@@ -1,6 +1,7 @@
-var id = document.querySelector("#interactive-graph");
-var graphData = id.getAttribute("data-graph");
-console.log(graphData)
+var something = document.querySelector(".pad");
+console.log(something)
+// var graphData = id.getAttribute("data-graph");
+// console.log(graphData)
 
 // //fetch `sample_data.json` and unpack the graph
 // let gephiJSON = fetch("http://localhost:1000/sample_data.json")

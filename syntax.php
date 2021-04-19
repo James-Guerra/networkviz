@@ -50,7 +50,7 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
             if(!empty($file)) {
                 if($file !== '' && !preg_match('/^https?:\/\//i', $file)) {
                     // $file = cleanID($file);
-                    $file = "Something:".$file;
+                    // $file = "Something:".$file;
                     $renderer->doc .= $file;
                 }
 
@@ -68,7 +68,7 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                 } else {
                     $file = mediaFN($file);
                     try {
-                        if(auth_quickaclcheck($fileNS . ':*') < AUTH_READ) {
+                        if(auth_quickaclcheck($file . ':*') < AUTH_READ) {
 						    throw new \Exception('Chart cannot be displayed ! Access denied to CSV file');
                         }
 					    if(!file_exists($file)) {
