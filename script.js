@@ -4,6 +4,7 @@ $(document).ready(function() {
     console.log(rawJSON)
 
     $.getJSON(rawJSON, function(graph) {
+        console.log(graph)
         // inherit all properties from gephi graph
     var parserOptions = {
         edges: {
