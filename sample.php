@@ -2,7 +2,7 @@
     // $url = $_SERVER['HTTP_HOST'];
     $url.=$_SERVER['REQUEST_URI'];
     $url=substr($url, 1, -1);
-    echo $url;
+    // echo $url;
 ?>
 <!DOCTYPE html>
 <html lang="en">

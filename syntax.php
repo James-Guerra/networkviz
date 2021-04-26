@@ -75,8 +75,12 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                         return false;
                     }
                 }
-
+                $url = $_SERVER["REQUEST_URI"];
+                // echo $url;
+                $renderer->doc .= '<div class="something" data-thing="'.$url.'"></div>';
                 $renderer->doc .= '<div id="interactive-graph" style="height:800px" data-graph="' . $file . '"' . '></div>';
+                
+
             }
             return true;
         }

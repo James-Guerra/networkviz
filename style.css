@@ -19,14 +19,14 @@ div.vis-tooltip {
     outline: none;
 }
 
-#interactive-graph {
+/* #interactive-graph {
     width: 100%;
     height: 100%;
     border: 1px solid lightgray;
     background: rgb(114,191,255);
 background: radial-gradient(circle, rgba(114,191,255,0.9221368715083799) 2%, rgba(68,157,224,0.9053770949720671) 92%);
 
-}
+} */
 
 body,html {
     height: 100%;
@@ -93,3 +93,11 @@ body,html {
     background-color: rgba(68, 68, 68, 0.3); /* Black background with opacity */
     z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   }
+
+
+#something {
+    position: fixed;
+    height: 100px;
+    width: 100px;
+    background-color: green;
+}
