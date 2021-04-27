@@ -13,7 +13,7 @@ $(document).ready(function() {
                 parseColor: true
             }
         }
-        
+
         graph.nodes.forEach(node => {
             node.color = "#205771"
         });
