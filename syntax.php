@@ -79,6 +79,13 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                 // $url = substr($url, 1, -1);
                 // echo $url;
                 // $renderer->doc .= '<div class="something" data-thing="'.$url.'"></div>';
+                $renderer->doc .= '<div class="spinner">
+                                     <div class="rect1"></div>
+                                     <div class="rect2"></div>
+                                     <div class="rect3"></div>
+                                     <div class="rect4"></div>
+                                     <div class="rect5"></div>
+                                   </div>';
                 $renderer->doc .= '<div id="overlay">
                                     <div class="redirect-container">
                                     <p class="redirect-prompt"></p>
@@ -89,8 +96,6 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                                     </div>
                                   </div>';
                 $renderer->doc .= '<div id="interactive-graph" style="height:800px" data-graph="' . $file . '"' . '></div>';
-                
-
             }
             return true;
         }

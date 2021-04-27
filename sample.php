@@ -16,6 +16,13 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
     <div id="interactive-graph" data-graph="sample_data.json"></div>
     <div id="overlay">
         <div class="redirect-container">
@@ -47,16 +54,11 @@
         }
 
         graph.nodes.forEach(node => {
-            node.group = "hi";
-            console.log(node)
-        })
-        graph.nodes.forEach(node => {
             node.color = "#205771"
         });
         graph.edges.forEach(edge => {
             edge.color = "#205771"
         });
-        // console.log(graph.nodes)
         var parsed = vis.parseGephiNetwork(graph, parserOptions);
         globalGraph = graph
 
@@ -139,20 +141,21 @@
         network = new vis.Network(container, parsedGraph, options);
         
         network.on("click", properties => {
-            console.log(properties)
+            network.renderer.renderingActive = false
+            console.log(network.renderer)
             id = properties.nodes[0]
             if(id != undefined) {
-                console.log(id)
-                nodeTitle = network.nodesHandler.body.nodes[id].options.attributes.Title            
-                // var nodeId = $("#node-id");
-                // nodeId[0].value = id
-                redirectPopup(id);
+                label = network.nodesHandler.body.nodes[id].options.label
+                redirectPopup(label);
             }
         });
+
+        network.once("stabilizationIterationsDone", function() {
+            $(".spinner").css('display', 'none');
+        }); 
     })
 
     function handleChosenState(values, id) {
-        console.log(values)
         nodeTitle = network.nodesHandler.body.nodes[id].options.attributes.Title            
         network.nodesHandler.body.nodes[id].options.title = htmlTitle(nodeTitle)
         values.size = 15
@@ -166,13 +169,16 @@
     }   
 
     function redirectPopup(id) {
+        $("#confirm-button")[0].value = id
         let redirectContainer = $(".redirect-container");
         let redirectPrompt = $(".redirect-container p")
         redirectContainer[0].style.visibility = "visible";
-        console.log(redirectContainer[0])
-        redirectPrompt[0].innerHTML = "Would you like to redirect to " + id
+        displayId = id.bold();
+        displayId = displayId.italics();
+        redirectPrompt[0].innerHTML = "Would you like to redirect to " + displayId
         $(".redirect-container").slideFadeToggle('3%')
         $("#overlay").fadeIn(300)
+        
     }
 
     $("#cancel-button").click(() => {

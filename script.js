@@ -108,6 +108,10 @@ $(document).ready(function() {
                 redirectPopup(label);
             }
         });
+
+        network.once("stabilizationIterationsDone", function() {
+            $(".spinner").css('display', 'none');
+        });
     })
 
     function handleChosenState(values, id) {
