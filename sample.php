@@ -17,11 +17,6 @@
 </head>
 <body>
     <div id="interactive-graph" data-graph="sample_data.json"></div>
-    <form id="get-nodes" method="get" action=<?php echo '"'.$url.'"'?> style="display:none">
-        <input name="nodeId" type="text" id="node-id" value="Some node id"/>
-        <input type="submit">
-    </form>
-    
     <div id="overlay">
         <div class="redirect-container">
             <p class="redirect-prompt"></p>
@@ -149,14 +144,15 @@
             if(id != undefined) {
                 console.log(id)
                 nodeTitle = network.nodesHandler.body.nodes[id].options.attributes.Title            
-                var nodeId = $("#node-id");
-                nodeId[0].value = id
+                // var nodeId = $("#node-id");
+                // nodeId[0].value = id
                 redirectPopup(id);
             }
         });
     })
 
     function handleChosenState(values, id) {
+        console.log(values)
         nodeTitle = network.nodesHandler.body.nodes[id].options.attributes.Title            
         network.nodesHandler.body.nodes[id].options.title = htmlTitle(nodeTitle)
         values.size = 15

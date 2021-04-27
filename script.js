@@ -1,7 +1,6 @@
 $(document).ready(function() {
     var rawJSON = $("#interactive-graph").attr("data-graph");
     rawJSON = "lib/plugins/networkviz/" + rawJSON;
-    console.log(rawJSON)
 
     $.getJSON(rawJSON, function(graph) {
         // inherit all properties from gephi graph
@@ -14,18 +13,13 @@ $(document).ready(function() {
                 parseColor: true
             }
         }
-
-        graph.nodes.forEach(node => {
-            node.group = "hi";
-            console.log(node)
-        })
+        
         graph.nodes.forEach(node => {
             node.color = "#205771"
         });
         graph.edges.forEach(edge => {
             edge.color = "#205771"
         });
-        // console.log(graph.nodes)
         var parsed = vis.parseGephiNetwork(graph, parserOptions);
         globalGraph = graph
 
@@ -108,14 +102,10 @@ $(document).ready(function() {
         network = new vis.Network(container, parsedGraph, options);
         
         network.on("click", properties => {
-            console.log(properties)
             id = properties.nodes[0]
             if(id != undefined) {
-                console.log(id)
-                nodeTitle = network.nodesHandler.body.nodes[id].options.attributes.Title            
-                var nodeId = $("#node-id");
-                nodeId[0].value = id
-                redirectPopup(id);
+                label = network.nodesHandler.body.nodes[id].options.label
+                redirectPopup(label);
             }
         });
     })
@@ -134,13 +124,16 @@ $(document).ready(function() {
     }   
 
     function redirectPopup(id) {
+        $("#confirm-button")[0].value = id
         let redirectContainer = $(".redirect-container");
         let redirectPrompt = $(".redirect-container p")
         redirectContainer[0].style.visibility = "visible";
-        console.log(redirectContainer[0])
-        redirectPrompt[0].innerHTML = "Would you like to redirect to " + id
+        displayId = id.bold();
+        displayId = displayId.italics();
+        redirectPrompt[0].innerHTML = "Would you like to redirect to " + displayId
         $(".redirect-container").slideFadeToggle('3%')
         $("#overlay").fadeIn(300)
+        
     }
 
     $("#cancel-button").click(() => {
@@ -151,17 +144,3 @@ $(document).ready(function() {
         return this.animate({opacity: '1', top: position});
     }; 
 })
-
-// `redirect()` takes the NODE'S id when clicked and assign's it to an <input> tag (with id #node-id) 
-// The submit button is then fired, to change the search query which should ultimately redirect the page.
-
-// NOTE: THERE IS PROBABLY A BETTER WAY TO DO THIS. I THINK THIS METHOD IS A VERY 'WALK-AROUND' WAY OF ACHIEVING
-// WHAT NEEDS TO BE DONE.
-function redirect(values, id, selected, hovering) {
-    // var nodeId = jQuery("#node-id");
-    // nodeId.value = id
-    // let redirect = confirm("Would you like to redirect to " + id);
-    // if(redirect) {
-    //     document.getElementById("get-nodes").submit();
-    // }
-}
