@@ -253,6 +253,10 @@
         $(".network-searcher input").attr("placeholder", "");
     })
     
+    $(".network-searcher").click(() => {
+        $(".network-searcher input").focus();
+    })
+    
     function focusOnNode(network, nodeId) {
         network.focus(nodeId, {scale: 0.7, animation:true});
         network.selectNodes([nodeId]);
