@@ -76,11 +76,7 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                     }
                 }
                 $url = $_SERVER["REQUEST_URI"];
-                //render dokuwiki logo anchor
-                $renderer-> doc .= '<a id="dokuwiki-logo" href="doku.php?id=start">
-                                        <img src="./logo.png" width="64" height="64" alt="">
-                                        <span>DokuWiki</span>
-                                    </a>';
+                
                 //render preloader spinner
                 $renderer->doc .= '<div class="spinner">
                                      <div class="rect1"></div>
@@ -89,22 +85,28 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                                      <div class="rect4"></div>
                                      <div class="rect5"></div>
                                    </div>';
+                
+                //render network
+                $renderer->doc .= '<div id="interactive-graph" style="height:800px" data-graph="' . $file . '"' . '></div>';
+                //render dokuwiki logo anchor
+                $renderer-> doc .= '<a id="dokuwiki-logo" href="doku.php?id=start">
+                                        <img src="./lib/plugins/networkviz/logo.png" width="64" height="64" alt="">
+                                        <span>DokuWiki</span>
+                                    </a>';
                 $renderer->doc .= '<div class="network-searcher">
-                                      <input placeholder="Press &#9166 to start searching this network"></input>
-                                      <div class="results-container"></div>
+                                    <input placeholder="Press &#9166 to start searching this network"></input>
+                                    <div class="results-container"></div>
                                    </div>';
                 //render overlay/redirect prompt
                 $renderer->doc .= '<div id="overlay">
-                                    <div class="redirect-container">
-                                    <p class="redirect-prompt"></p>
-                                    <form action="doku.php" method="get" id="confirm-redirect">
-                                        <button type="submit" value="" name="id" id="confirm-button">Confirm</button>
-                                    </form>
-                                    <button class="button" id="cancel-button">Cancel</button>
-                                    </div>
-                                  </div>';
-                //render network
-                $renderer->doc .= '<div id="interactive-graph" style="height:800px" data-graph="' . $file . '"' . '></div>';
+                                      <div class="redirect-container">
+                                        <p class="redirect-prompt"></p>
+                                        <form action="doku.php" method="get" id="confirm-redirect">
+                                            <button type="submit" value="" name="id" id="confirm-button">Confirm</button>
+                                        </form>
+                                        <button class="button" id="cancel-button">Cancel</button>
+                                      </div>
+                                   </div>';
             }
             return true;
         }
