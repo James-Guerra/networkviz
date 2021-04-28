@@ -24,6 +24,15 @@
         <div class="rect5"></div>
     </div>
     <div id="interactive-graph" data-graph="sample_data.json"></div>
+    <a href="doku.php?id=start" id="dokuwiki-logo">
+        <img src="./logo.png" width="64" height="64" alt="">
+        <span>DokuWiki</span>
+    </a>
+    <div class="network-searcher">
+        <input placeholder="Press &#9166 to start searching this network"></input>
+        <div class="results-container">
+        </div>
+    </div>
     <div id="overlay">
         <div class="redirect-container">
             <p class="redirect-prompt"></p>
@@ -37,9 +46,10 @@
         $(document).ready(function() {
             var network;
             var globalGraph;
+            var mygraph;
     var rawJSON = $("#interactive-graph").attr("data-graph");
     rawJSON = rawJSON;
-    console.log(rawJSON)
+    // console.log(rawJSON)
 
     $.getJSON(rawJSON, function(graph) {
         // inherit all properties from gephi graph
@@ -60,7 +70,6 @@
             edge.color = "#205771"
         });
         var parsed = vis.parseGephiNetwork(graph, parserOptions);
-        globalGraph = graph
 
         var parsedGraph = {
             nodes: parsed.nodes,
@@ -142,7 +151,6 @@
         
         network.on("click", properties => {
             network.renderer.renderingActive = false
-            console.log(network.renderer)
             id = properties.nodes[0]
             if(id != undefined) {
                 label = network.nodesHandler.body.nodes[id].options.label
@@ -152,7 +160,42 @@
 
         network.once("stabilizationIterationsDone", function() {
             $(".spinner").css('display', 'none');
+            $(".network-searcher").css("display", "block");
         }); 
+
+        // console.log(network)
+        mygraph = {
+            nodes: network.body.nodes,
+            edges: network.body.edges
+        }
+        // console.log(mygraph)
+        for(let key in mygraph.nodes) {
+            $(".results-container").append(`<div>${key}</div>`)
+        }
+        $(".network-searcher input").keyup(e => {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.querySelector(".network-searcher input");
+            filter = input.value.toUpperCase();
+            allDivs = document.querySelectorAll(".results-container div");
+            allDivs.forEach(div => {
+                // console.log(div)
+                txtValue = div.innerText;
+                if(txtValue.toUpperCase().indexOf(filter) > -1) {
+                    div.style.display = "block";
+                } else {
+                    div.style.display = "none";
+                }
+            })
+        })
+        
+        let resultsContainer = document.querySelectorAll(".results-container div");
+        resultsContainer.forEach(div => {
+            div.addEventListener("click", () => {
+                nodeId = div.innerText;
+                // console.log(nodeId)
+                focusOnNode(network, nodeId)
+            })
+        })
     })
 
     function handleChosenState(values, id) {
@@ -178,7 +221,6 @@
         redirectPrompt[0].innerHTML = "Would you like to redirect to " + displayId
         $(".redirect-container").slideFadeToggle('3%')
         $("#overlay").fadeIn(300)
-        
     }
 
     $("#cancel-button").click(() => {
@@ -188,6 +230,34 @@
     $.fn.slideFadeToggle  = function(position) {
         return this.animate({opacity: '1', top: position});
     }; 
+
+    $("body").keydown(e => {
+        let input = $(".network-searcher, .network-searcher > input");
+        if(e.which == 13) {
+            input.css("display", "block");
+            input.focus();
+            input.attr("placeholder", "")
+            $(".results-container").css("height", "400px");
+            $(".results-container").css("display", "block");
+        }
+        if(e.which == 27) {
+            input.blur()
+            input.attr("placeholder", "Press " + "\u23CE to start searching this network")
+            $(".results-container").css("height", "0px");
+        }
+    })
+
+    $(".network-searcher input").on("focus", () => {
+        $(".results-container").css("height", "400px");
+        $(".results-container").css("display", "block");
+        $(".network-searcher input").attr("placeholder", "");
+    })
+    
+    function focusOnNode(network, nodeId) {
+        network.focus(nodeId, {scale: 0.7, animation:true});
+        network.selectNodes([nodeId]);
+    }
+    
 })
 
     </script>

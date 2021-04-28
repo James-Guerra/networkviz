@@ -76,9 +76,10 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                     }
                 }
                 $url = $_SERVER["REQUEST_URI"];
-                // $url = substr($url, 1, -1);
-                // echo $url;
-                // $renderer->doc .= '<div class="something" data-thing="'.$url.'"></div>';
+                $renderer-> doc .= '<a id="dokuwiki-logo" href="doku.php?id=start">
+                                        <img src="./logo.png" width="64" height="64" alt="">
+                                        <span>DokuWiki</span>
+                                    </a>';
                 $renderer->doc .= '<div class="spinner">
                                      <div class="rect1"></div>
                                      <div class="rect2"></div>
@@ -86,11 +87,12 @@ class syntax_plugin_networkviz extends DokuWiki_Syntax_Plugin {
                                      <div class="rect4"></div>
                                      <div class="rect5"></div>
                                    </div>';
+
                 $renderer->doc .= '<div id="overlay">
                                     <div class="redirect-container">
                                     <p class="redirect-prompt"></p>
                                     <form action="doku.php" method="get" id="confirm-redirect">
-                                        <button type="submit" value="hello" name="id" id="confirm-button">Confirm</button>
+                                        <button type="submit" value="" name="id" id="confirm-button">Confirm</button>
                                     </form>
                                     <button class="button" id="cancel-button">Cancel</button>
                                     </div>

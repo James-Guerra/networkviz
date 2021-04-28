@@ -173,4 +173,97 @@ body,html {
       -webkit-transform: scaleY(1.0);
     }
   }
+/* pre loader source code finished*/
+
+#dokuwiki-logo {
+    position: fixed;
+    bottom: 0;
+    margin: 20px;
+    opacity: 0.5;
+    z-index: 6;
+    font: normal 1.5em Arial,sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+#dokuwiki-logo > * {
+    margin: 3px;
+}
+
+a[id="dokuwiki-logo"]:active, a[id="dokuwiki-logo"], a[id="dokuwiki-logo"]:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.network-searcher  {
+    width: 20%;
+    height: 50px;
+    margin: 20px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 6;
+    font-family: 'Montserrat', sans-serif;
+    display: none;
+}
+
+.network-searcher input, .network-searcher input:focus {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    border: none;
+    font-size: 80%;
+}
+
+.results-container {
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 12px 12px rgb(65 129 148 / 75%);
+    overflow-y: scroll;
+    margin: 0;
+    padding: 0;
+    display: none;
+    transition: height 0.2s linear;
+}
+
+.results-container div {
+    padding: 10px;
+    font-size: 0.7em;
+    display: none;
+    overflow-wrap: break-word;
+}
+
+.results-container div::selection {
+    background: none;
+    color: none;
+}
+
+/* width */
+.results-container::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+.results-container::-webkit-scrollbar-track {
+    box-shadow: 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+.results-container::-webkit-scrollbar-thumb {
+    background: rgba(26, 101, 136, 0.788); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+.results-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(26, 101, 136, 0.7); ; 
+}
+
+.results-container div:hover {
+    background-color: rgba(189, 195, 196, 0.897);
+    cursor: default;
+}
+
+
 
